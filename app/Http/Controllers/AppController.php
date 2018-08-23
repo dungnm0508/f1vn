@@ -101,7 +101,6 @@ class AppController extends Controller
             ->join('race', 'race.id', '=', 'calendar.id_race')
             ->select('*')
             ->get();
-        fadfaffaf
         var_dump($races);die;
     }
 }
