@@ -103,4 +103,28 @@ class AppController extends Controller
             ->get();
         var_dump($races);die;
     }
+    public function getSwipper(){
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        // $races  = Race::all();
+        $calendars = DB::table('calendar')
+            ->join('race', 'race.id', '=', 'calendar.id_race')
+            ->select('calendar.end','calendar.id','calendar.difference')
+            ->get();
+        $lastTimestamp = $this->getLastTimestamp($calendars);
+        echo date('d.m.Y H:i:s', $lastTimestamp);die;
+        // return view('test/swipper',compact('races'));
+    }
+    public function getLastTimestamp($calendars){
+        $last_timestamp_end = 0;
+        foreach ($calendars as $key=>$calendar) {
+            if($calendar->id % 5 == 0){
+                $time_end = $calendar->end + $calendar->difference*3600;
+                $last_timestamp_end = $time_end;
+                if($time_end >time()){
+                    break;
+                }
+            }
+        }
+        return $last_timestamp_end;
+    }
 }

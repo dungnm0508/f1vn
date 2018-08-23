@@ -20,3 +20,5 @@ Route::get('getData',['as'=>'getData','uses'=>'AppController@getDataCalendar']);
 
 Route::get('info',['as'=>'getDataInfo','uses'=>'AppController@getDataRace']);
 
+Route::get('swipper',['as'=>'getSwipper','uses'=>'AppController@getSwipper']);
+
