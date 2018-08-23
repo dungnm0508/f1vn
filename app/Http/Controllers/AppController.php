@@ -7,6 +7,7 @@ use App\ICal;
 use App\Calendar;
 use App\Race;
 use Datetime;
+use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
 {
@@ -94,5 +95,13 @@ class AppController extends Controller
            $race->created_at = new Datetime();
            $race->save();
        }
+    }
+    public function getDataRace(){
+        $races = DB::table('calendar')
+            ->join('race', 'race.id', '=', 'calendar.id_race')
+            ->select('*')
+            ->get();
+        
+        var_dump($races);die;
     }
 }
