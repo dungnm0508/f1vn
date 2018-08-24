@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Swiper demo</title>
+  <title>Formula 1 Vietnam</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
   <!-- Link Swiper's CSS -->
@@ -115,7 +115,8 @@
   <!-- Initialize Swiper -->
   <script>
   	var races = <?php echo json_encode($races); ?>;
-  	console.log(races);
+  	var lastRace = <?php echo json_encode($lastRace); ?>;
+  	console.log(lastRace.id);
     var swiper = new Swiper('.swiper-container', {
       slidesPerView: 'auto',
       spaceBetween: 0,
@@ -124,13 +125,17 @@
       	clickable: true,
       },on: {
       	init: function () {
-      		console.log('swiper initialized');
+      		$('[data-slide-id="'+lastRace.id+'"]').addClass('active-slider');
+      		this.slideTo(lastRace.id-5);
       	},
       	click:function(){	
       		var index = swiper.clickedIndex+1;
       		$(".swiper-slide").removeClass("active-slider");
       		$('[data-slide-id="'+index+'"]').addClass('active-slider');
-      	}
+      		swiper.slideTo(swiper.clickedIndex-4);
+
+      	},
+      	
       }
     });
     
