@@ -97,9 +97,7 @@
 </style>
 </head>
 <body>
-<div class="container">
-	
-</div>
+
 <article class="clock">
 	<div class="hours-container">
 		<div class="hours"></div>
@@ -115,12 +113,7 @@
 <script src="//code.jquery.com/jquery.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	var data = '<?php echo $data ;?>';
-	$('.container').html(data);
-	setTimeout(function(){ 
-		var src = $('.flag img').attr('src');
-		$('.flag img').attr('src','https://www.formula1.com'+src);
-	}, 1000);
+	
 	this.initLocalClocks();
 	function initLocalClocks() {	
 		var date = new Date;

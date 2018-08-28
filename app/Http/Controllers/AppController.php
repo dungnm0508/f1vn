@@ -61,12 +61,13 @@ class AppController extends Controller
         include('simple_html_dom.php');
         $html = file_get_html('https://www.formula1.com/');
         $data = []; 
-        foreach($html->find('.race-list .race') as $element) {
+        foreach($html->find('.race-list .race') as $key =>$element) {
             $img_country =$element->find("div.country div.flag img", 0)->src; 
             $name_country =$element->find("div.country .name", 0)->plaintext; 
             $race_name = $element->find(".race-details .race-title a", 0)->plaintext;
             $date_from = $element->find(".race-details .race-date-full .from", 0)->plaintext;
             $date_to = $element->find(".race-details .race-date-full .to", 0)->plaintext;
+            $url_detail_race = $element->find(".race-details .race-title a", 0)->href;
             $country =[];
             $country['image'] = $img_country;
             $country['name'] = $name_country;
@@ -78,11 +79,11 @@ class AppController extends Controller
             $item["date_to"]= $date_to ;
 
             $data[] = $item;
-                
-            // echo $img_country    . '<br>';
+            DB::table('race')->where('id', $key+1)->update(['url_detail_race' => $url_detail_race]);    
+            echo $url_detail_race ." key: ".$key. '<br>' ;
             // $data =   $element->outertext;
         }
-        $this->saveRace($data);
+        // $this->saveRace($data);
        // return view('test/clock',compact('data'));
     }
     public function saveRace($races){
@@ -106,13 +107,14 @@ class AppController extends Controller
     public function getSwipper(){
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $races  = Race::all();
+
         $calendars = DB::table('calendar')
             ->join('race', 'race.id', '=', 'calendar.id_race')
-            ->select('calendar.end','calendar.id','calendar.difference')
+            ->select('*','calendar.id')
             ->get();
         $arrayLastTimestamp = $this->getLastTimestamp($calendars);
         $lastRace = DB::table('race')->join('calendar', 'race.id', '=', 'calendar.id_race')->where('calendar.end','=',$arrayLastTimestamp['last_timestamp_end'] - $arrayLastTimestamp['last_diffence']*3600)->select('*','race.id')->first();
-        return view('test/swipper',compact('races','lastRace'));
+        return view('test/swipper',compact('races','lastRace','calendars'));
     }
     public function getLastTimestamp($calendars){
         $last_timestamp_end = 0;
