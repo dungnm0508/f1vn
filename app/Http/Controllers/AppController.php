@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\ICal;
 use App\Calendar;
 use App\Race;
+use App\Team;
+use App\Driver;
 use Datetime;
 use Illuminate\Support\Facades\DB;
 
@@ -130,5 +132,64 @@ class AppController extends Controller
             }
         }
         return  array('last_timestamp_end'=>$last_timestamp_end,'last_diffence'=>$last_diffence);
+    }
+    public function getDataDrivers(){
+        include('simple_html_dom.php');
+        $html = file_get_html('https://www.formula1.com/en/championship/drivers.html');
+        $isSave = count(Driver::all()) == 0?true:false;
+        if($isSave){
+            foreach($html->find('.driver-index-teasers a') as $key =>$element) {
+                $url_driver =$element->href;
+                $image_driver =$element->find("div.driver-image-crop img", 0)->src; 
+                $number_driver = $element->find("div.driver-number span", 0)->plaintext;
+                $name_driver = $element->find("h1.driver-name", 0)->plaintext;
+                $name_team = $element->find("p.driver-team span", 0)->plaintext;
+                $team = DB::table('teams')->where('name_team','=',$name_team)->select('id')->first();
+                $id_team = $team->id;
+
+                $driver = new Driver;
+                $driver->url_driver = $url_driver;
+                $driver->image_driver = $image_driver;
+                $driver->number_driver = $number_driver;
+                $driver->name_driver = $name_driver;
+                $driver->id_team = $id_team;
+                $driver->created_at = new Datetime();
+                $driver->save();
+            }
+        }
+        
+    }
+    public function getDataTeams(){
+        include('simple_html_dom.php');
+        $html = file_get_html('https://www.formula1.com/en/championship/teams.html');
+        $isSave = count(Team::all()) == 0?true:false;
+        if($isSave){
+            foreach($html->find('ul.teamindex-teamteasers li.teamindex-teamteaser') as $key =>$element) {
+                $url_team = $element->find(".teamteaser-wrapper", 0)->href;
+                $img_country_team = $element->find(".teamteaser-flag img", 0)->src;
+                $name_team = $element->find(".teamteaser-title", 0)->plaintext;
+                $img_team = $element->find("div.teamteaser-sponsor img", 0)->src;
+                $podiums = $element->find(".stat-list .stat-value", 0)->plaintext;
+                $championships = $element->find(".stat-list .stat-value", 1)->plaintext;
+                $img_car_team = $element->find(".teamteaser-image .fom-adaptiveimage img", 0)->src;
+
+                $style = $element->find("div.teamteaser-image .team-color", 0)->style;
+                $data_color = explode(" ",$style);
+                $color_team = $data_color[1];
+
+                $team = new Team;
+                $team->url_team = $url_team;
+                $team->img_country_team = $img_country_team;
+                $team->name_team = $name_team;
+                $team->podiums = $podiums;
+                $team->img_team = $img_team;
+                $team->championships = $championships;
+                $team->img_car_team = $img_car_team;
+                $team->color_team = $color_team;
+                $team->created_at = new Datetime();
+                $team->save();
+            }
+        }
+        
     }
 }
