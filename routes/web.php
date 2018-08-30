@@ -25,3 +25,5 @@ Route::get('swipper',['as'=>'getSwipper','uses'=>'AppController@getSwipper']);
 Route::get('drivers',['uses'=>'AppController@getDataDrivers']);
 
 Route::get('teams',['uses'=>'AppController@getDataTeams']);
+
+Route::get('standing',['uses'=>'AppController@getStadings']);

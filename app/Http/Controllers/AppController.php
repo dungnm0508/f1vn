@@ -192,4 +192,13 @@ class AppController extends Controller
         }
         
     }
+    public function getStadings(){
+         include('simple_html_dom.php');
+        $html = file_get_html('https://www.formula1.com/en.html');
+        $data= "";
+        foreach($html->find('div.current-standings .tab-content .driver_standings table') as $key =>$element) {
+            $data =  $element->outertext;
+        }
+        return view('test/standing',compact('data'));
+    }
 }
