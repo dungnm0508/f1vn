@@ -41,6 +41,8 @@
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="{{asset('/public/dist/app/css/style.css')}}"/>
+	<link rel="stylesheet" href="{{asset('/public/dist/swipper/css/swiper.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('/public/css/swiper.css')}}">
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -83,7 +85,7 @@
 			<div id="center-header">
 				<div class="container">
 					<div class="header-logo">
-						<a href="#" class="logo"><img src="{{asset('/public/dist/app/img/logo.png')}}" alt=""></a>
+						<a href="#" class="logo"><img src="{{asset('/public/dist/app/img/F1_logo.svg')}}" alt=""></a>
 					</div>
 					<div class="header-ads">
 						<img class="center-block" src="{{asset('/public/dist/app/img/ad-2.jpg')}}" alt=""> 
@@ -874,6 +876,133 @@
 			<img class="center-block" src="{{asset('/public/dist/app/img/ad-3.jpg')}}" alt="">
 		</div>
 		<!-- /AD SECTION -->
+		<div class="container-swiper">
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					@foreach($races as $race)
+					<?php 
+					date_default_timezone_set('Asia/Ho_Chi_Minh');
+					$calendarOfRace = [];
+					foreach ($calendars as $value) {
+						if($race->id == $value->id_race){
+							$calendarOfRace[] = $value;
+						}
+					}
+  			// echo  date('d.m.Y H:i:s', $calendarOfRace[0]->start+$calendarOfRace[0]->difference*3600);die;
+					?>
+					<?php $data = json_decode($race->country,true);?>
+					<div class="swiper-slide" data-slide-id="{{$race->id}}">
+						<div class="img-country">
+							<img src="https://www.formula1.com/<?php echo $data['image']; ?>">
+						</div>
+						<div class="name-country"><?php echo $data['name']; ?></div>
+						<div id="content-race">
+							<div class="name-race"><a href="https://www.formula1.com/{{$race->url_detail_race}}">{{$race->name_race}}</a></div>
+							<div class="time-race">{{$race->date_from}} -  {{$race->date_to}}</div>
+							<div class="calendar-race">
+								<?php  ?>
+								<ul class="practice-race">
+									<li>
+										<span class="race-type">Practice 1</span>
+										<time class="day" datetime="Aug 24 2018 11:00">
+											Fri
+										</time>
+										<span class="race-time">
+											<time class="clock-24" datetime="Aug 24 2018 11:00">
+												<?php  echo date('H:i',$calendarOfRace[0]->start + $calendarOfRace[0]->difference*3600); ?>
+											</time>
+											–
+											<time class="clock-24" datetime="Aug 24 2018 12:30">
+												<?php echo date('H:i',$calendarOfRace[0]->end + $calendarOfRace[0]->difference*3600); ?>
+											</time>
+										</span>
+									</li>
+									<li>
+										<span class="race-type">Practice 2</span>
+										<time class="day" datetime="Aug 24 2018 11:00">
+											Fri
+										</time>
+										<span class="race-time">
+											<time class="clock-24" datetime="Aug 24 2018 11:00">
+												<?php echo date('H:i',$calendarOfRace[1]->start + $calendarOfRace[1]->difference*3600); ?>
+											</time>
+											–
+											<time class="clock-24" datetime="Aug 24 2018 12:30">
+												<?php echo date('H:i',$calendarOfRace[1]->end + $calendarOfRace[1]->difference*3600); ?>
+											</time>
+										</span>
+									</li>
+									<li>
+										<span class="race-type">Practice 3</span>
+										<time class="day" datetime="Aug 24 2018 11:00">
+											Fri
+										</time>
+										<span class="race-time">
+											<time class="clock-24" datetime="Aug 24 2018 11:00">
+												<?php echo date('H:i',$calendarOfRace[2]->start + $calendarOfRace[2]->difference*3600); ?>
+											</time>
+											–
+											<time class="clock-24" datetime="Aug 24 2018 12:30">
+												<?php echo date('H:i',$calendarOfRace[2]->end + $calendarOfRace[2]->difference*3600); ?>
+											</time>
+										</span>
+									</li>
+								</ul>
+								<ul class="main-race">
+									<li>
+										<span class="race-type">Qualifying</span>
+										<time class="day" datetime="Aug 24 2018 11:00">
+											Sat
+										</time>
+										<span class="race-time">
+											<time class="clock-24" datetime="Aug 24 2018 11:00">
+												<?php echo date('H:i',$calendarOfRace[3]->start + $calendarOfRace[3]->difference*3600); ?>
+											</time>
+											–
+											<time class="clock-24" datetime="Aug 24 2018 12:30">
+												<?php echo date('H:i',$calendarOfRace[3]->end + $calendarOfRace[3]->difference*3600); ?>
+											</time>
+										</span>
+									</li>
+									<li>
+										<span class="race-type">Main race</span>
+										<time class="day" datetime="Aug 24 2018 11:00">
+											Sun
+										</time>
+										<span class="race-time">
+											<time class="clock-24" datetime="Aug 24 2018 11:00">
+												<?php echo date('H:i',$calendarOfRace[4]->start + $calendarOfRace[4]->difference*3600); ?>
+											</time>
+											–
+											<time class="clock-24" datetime="Aug 24 2018 12:30">
+												<?php echo date('H:i',$calendarOfRace[4]->end + $calendarOfRace[4]->difference*3600); ?>
+											</time>
+										</span>
+									</li>
+									<div class="container-clock">
+										<article class="clock">
+											<div class="hours-container">
+												<div class="hours" style="transform: rotateZ(458.5deg);"></div>
+											</div>
+											<div class="minutes-container" data-second-angle="306">
+												<div class="minutes" style="transform: rotateZ(102deg);"></div>
+											</div>
+											<div class="seconds-container">
+												<div class="seconds" style="transform: rotateZ(306deg);"></div>
+											</div>
+										</article>
+									</div>
+								</ul>
+							</div>
+						</div>
+						<div class="time-main-race">
+							{{$race->date_to}}
+						</div>
+					</div>
+					@endforeach
+				</div>
+			</div>
+		</div>
 		
 		<!-- SECTION -->
 		<div class="section">
@@ -1399,6 +1528,85 @@
 			<script src="{{asset('/public/dist/app/js/bootstrap.min.js')}}"></script>
 			<script src="{{asset('/public/dist/app/js/owl.carousel.min.js')}}"></script>
 			<script src="{{asset('/public/dist/app/js/main.js')}}"></script>
+			<script src="{{asset('/public/dist/swipper/js/swiper.min.js')}}"></script>
+			<!-- Initialize Swiper -->
+			<script>
+				var races = <?php echo json_encode($races); ?>;
+				var lastRace = <?php echo json_encode($lastRace); ?>;
+				var calendars = <?php echo json_encode($calendars); ?>;
+
+				var swiper = new Swiper('.swiper-container', {
+					slidesPerView: 'auto',
+					spaceBetween: 0,
+					pagination: {
+						el: '.swiper-pagination',
+						clickable: true,
+					},on: {
+						init: function () {
+							$('[data-slide-id="'+lastRace.id+'"]').addClass('active-slider');
+							this.slideTo(lastRace.id-5);
+							var country = JSON.parse(lastRace.country);
+
+							$(".swiper-slide #content-race").hide();
+							$(".active-slider .time-main-race").hide();
+							$(".active-slider #content-race").show();
+
+      		// $('.active-slider').html(html);
+      		
+      	},
+      	click:function(){	
+      		var index = swiper.clickedIndex+1;
+      		$(".swiper-slide").removeClass("active-slider");
+      		$(".swiper-slide .time-main-race").show();
+      		$('[data-slide-id="'+index+'"]').addClass('active-slider');
+      		swiper.slideTo(swiper.clickedIndex-4);
+
+      		$(".swiper-slide #content-race").hide();
+      		$(".active-slider .time-main-race").hide();
+      		$(".active-slider #content-race").show();
+
+      	},
+      	
+      }
+
+  });
+
+
+</script>
+<script type="text/javascript">
+	
+	this.initLocalClocks();
+	function initLocalClocks() {	
+		var date = new Date;
+		var seconds = date.getSeconds();
+		var minutes = date.getMinutes();
+		var hours = date.getHours();
+		var hands = [
+		{
+			hand: 'hours',
+			angle: (hours * 30) + (minutes / 2)
+		},
+		{
+			hand: 'minutes',
+			angle: (minutes * 6)
+		},
+		{
+			hand: 'seconds',
+			angle: (seconds * 6)
+		}
+		];
+		for (var j = 0; j < hands.length; j++) {
+			var elements = document.querySelectorAll('.' + hands[j].hand);
+			for (var k = 0; k < elements.length; k++) {
+				elements[k].style.webkitTransform = 'rotateZ('+ hands[j].angle +'deg)';
+				elements[k].style.transform = 'rotateZ('+ hands[j].angle +'deg)';
+				if (hands[j].hand === 'minutes') {
+					elements[k].parentNode.setAttribute('data-second-angle', hands[j + 1].angle);
+				}
+			}
+		}
+	}
+</script>
 
 		</body>
 		</html>

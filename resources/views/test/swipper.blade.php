@@ -29,7 +29,7 @@
  
 
   <!-- Demo styles -->
-  <link rel="stylesheet" type="text/css" href="{{asset('/public//css/swiper.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('/public/css/swiper.css')}}">
 </head>
 <body>
   <!-- Swiper -->
@@ -159,8 +159,6 @@
   			</div>
   			@endforeach
   		</div>
-  		<!-- Add Pagination -->
-  		<!-- <div class="swiper-pagination"></div> <--></-->
   	</div>
   </div>
 
