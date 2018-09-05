@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 Route::get('cron',['as'=>'cronData','uses'=>'AppController@cronData']);
 
 Route::get('getData',['as'=>'getData','uses'=>'AppController@getDataCalendar']);
@@ -27,3 +27,8 @@ Route::get('drivers',['uses'=>'AppController@getDataDrivers']);
 Route::get('teams',['uses'=>'AppController@getDataTeams']);
 
 Route::get('standing',['uses'=>'AppController@getStadings']);
+
+Route::get('dataStandings/{year}/{type}',['uses'=>'AppController@getDataStandings']);
+
+//main
+Route::get('/',['as'=>'getDashBoard','uses'=>'IndexController@getDashBoard']);

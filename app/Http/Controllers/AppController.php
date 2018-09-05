@@ -82,7 +82,8 @@ class AppController extends Controller
 
             $data[] = $item;
             DB::table('race')->where('id', $key+1)->update(['url_detail_race' => $url_detail_race]);    
-            echo $url_detail_race ." key: ".$key. '<br>' ;
+            DB::table('race')->where('id', $key+1)->update(['country' => json_encode($country)]);    
+            echo $img_country. '<br>' ;
             // $data =   $element->outertext;
         }
         // $this->saveRace($data);
@@ -200,5 +201,13 @@ class AppController extends Controller
             $data =  $element->outertext;
         }
         return view('test/standing',compact('data'));
+    }
+    public function getDataStandings($year,$type){
+         include('simple_html_dom.php');
+        $path = 'https://www.formula1.com/en/results.html/'.$year.'/'.$type.'.html';
+        $html = file_get_html($path);
+        
+        echo $html->find(".resultsarchive-content", 0)->outertext;
+
     }
 }
