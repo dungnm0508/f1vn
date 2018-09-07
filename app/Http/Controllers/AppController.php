@@ -8,6 +8,7 @@ use App\Calendar;
 use App\Race;
 use App\Team;
 use App\Driver;
+use App\News;
 use Datetime;
 use Illuminate\Support\Facades\DB;
 
@@ -206,8 +207,61 @@ class AppController extends Controller
          include('simple_html_dom.php');
         $path = 'https://www.formula1.com/en/results.html/'.$year.'/'.$type.'.html';
         $html = file_get_html($path);
-        
         echo $html->find(".resultsarchive-content", 0)->outertext;
 
+    }
+    public function getDataNews(){
+        include('simple_html_dom.php');
+        $html = file_get_html('https://www.formula1.com/en/latest/all.html');
+        $data_news = [];
+        foreach($html->find('#article-list .js-load-more-container .f1-latest-listing--grid-item') as $key =>$element) {
+            $url_news =  $element->find("a", 0)->href;
+            $img_news =  $element->find(".f1-cc--image img", 0)->src;
+            $tag_news =  $element->find(".f1-cc--caption .misc--tag", 0)->plaintext;
+            $caption_news =  $element->find(".f1-cc--caption p", 1)->plaintext;
+            $data = [];
+            $data['url_news'] = $url_news;
+            $data['img_news'] = $img_news;
+            $data['tag_news'] = trim($tag_news," ");
+            $data['caption_news'] = $caption_news;
+            $data_news[] = $data;
+        }
+        $news_db = News::all();
+        if(count($news_db) == 0){
+            $this->saveDataNews(array_reverse($data_news));
+        }else{
+            $array_data_news = json_decode($news_db,true);
+            $listNewsUnset = array();
+            foreach ($array_data_news as $news) {
+                unset($news['id'], $news['created_at'], $news['updated_at']);
+                array_push($listNewsUnset, $news);
+            }
+            $diff_news = $this->array_diff_assoc_recursive($listNewsUnset,$data_news);
+            $this->saveDataNews(array_reverse($diff_news));
+        }
+    }
+    public function saveDataNews($data){
+        foreach ($data as $value) {
+            $news = new News;
+            $news->url_news = $value['url_news'];
+            $news->img_news = $value['img_news'];
+            $news->tag_news = $value['tag_news'];
+            $news->caption_news = $value['caption_news'];
+            $news->created_at = new Datetime();
+            $news->save();
+        }
+    }
+     public function array_diff_assoc_recursive($array1, $array2) {
+        $imgs = array();
+        foreach ($array1 as $k => $x) {
+            $imgs[$x['img_news']] = $x;
+        }
+        $_out = array();
+        foreach ($array2 as $y) {
+            if (!array_key_exists($y['img_news'], $imgs)) {
+                array_push($_out, $y);
+            }
+        }
+        return $_out;
     }
 }

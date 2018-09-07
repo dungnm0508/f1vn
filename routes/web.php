@@ -28,6 +28,8 @@ Route::get('teams',['uses'=>'AppController@getDataTeams']);
 
 Route::get('standing',['uses'=>'AppController@getStadings']);
 
+Route::get('news',['uses'=>'AppController@getDataNews']);
+
 Route::get('dataStandings/{year}/{type}',['uses'=>'AppController@getDataStandings']);
 
 //main
