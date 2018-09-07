@@ -8,6 +8,7 @@ use App\Calendar;
 use App\Race;
 use App\Team;
 use App\Driver;
+use App\News;
 use Datetime;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +24,8 @@ class IndexController extends Controller
             ->get();
         $arrayLastTimestamp = $this->getLastTimestamp($calendars);
         $lastRace = DB::table('race')->join('calendar', 'race.id', '=', 'calendar.id_race')->where('calendar.end','=',$arrayLastTimestamp['last_timestamp_end'] - $arrayLastTimestamp['last_diffence']*3600)->select('*','race.id')->first();
-    	return view('layouts/master',compact('races','lastRace','calendars'));
+        $listNews = News::all();
+    	return view('layouts/master',compact('races','lastRace','calendars','listNews'));
     }
     public function getLastTimestamp($calendars){
         $last_timestamp_end = 0;

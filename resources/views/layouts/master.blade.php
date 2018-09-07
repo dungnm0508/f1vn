@@ -128,62 +128,30 @@
 		
 		<!-- Owl Carousel 1 -->
 		<div id="owl-carousel-1" class="owl-carousel owl-theme center-owl-nav">
+			<?php $i=0; ?>
+			@foreach($listNews as $key=>$news)
 			<!-- ARTICLE -->
 			<article class="article thumb-article">
 				<div class="article-img">
-					<img src="{{asset('/public/dist/app/img/img-lg-1.jpg')}}" alt="">
+					<img src="{{$news->img_news}}" alt="">
 				</div>
 				<div class="article-body">
 					<ul class="article-info">
-						<li class="article-category"><a href="#">News</a></li>
+						<li class="article-category"><a href="#">{{$news->tag_news}}</a></li>
 						<li class="article-type"><i class="fa fa-camera"></i></li>
 					</ul>
-					<h2 class="article-title"><a href="#">Duis urbanitas eam in, tempor consequat.</a></h2>
+					<h2 class="article-title"><a href="#">{{$news->caption_news}}</a></h2>
 					<ul class="article-meta">
 						<li><i class="fa fa-clock-o"></i> January 31, 2017</li>
 						<li><i class="fa fa-comments"></i> 33</li>
 					</ul>
 				</div>
+			<?php if($key == 3){
+				break;
+			} ?>
 			</article>
 			<!-- /ARTICLE -->
-			
-			<!-- ARTICLE -->
-			<article class="article thumb-article">
-				<div class="article-img">
-					<img src="{{asset('/public/dist/app/img/img-lg-2.jpg')}}" alt="">
-				</div>
-				<div class="article-body">
-					<ul class="article-info">
-						<li class="article-category"><a href="#">News</a></li>
-						<li class="article-type"><i class="fa fa-file-text"></i></li>
-					</ul>
-					<h2 class="article-title"><a href="#">Duis urbanitas eam in, tempor consequat.</a></h2>
-					<ul class="article-meta">
-						<li><i class="fa fa-clock-o"></i> January 31, 2017</li>
-						<li><i class="fa fa-comments"></i> 33</li>
-					</ul>
-				</div>
-			</article>
-			<!-- /ARTICLE -->
-			
-			<!-- ARTICLE -->
-			<article class="article thumb-article">
-				<div class="article-img">
-					<img src="{{asset('/public/dist/app/img/img-lg-3.jpg')}}" alt="">
-				</div>
-				<div class="article-body">
-					<ul class="article-info">
-						<li class="article-category"><a href="#">News</a></li>
-						<li class="article-type"><i class="fa fa-camera"></i></li>
-					</ul>
-					<h2 class="article-title"><a href="#">Duis urbanitas eam in, tempor consequat.</a></h2>
-					<ul class="article-meta">
-						<li><i class="fa fa-clock-o"></i> January 31, 2017</li>
-						<li><i class="fa fa-comments"></i> 33</li>
-					</ul>
-				</div>
-			</article>
-			<!-- /ARTICLE -->
+			@endforeach
 		</div>
 		<!-- /Owl Carousel 1 -->
 		
